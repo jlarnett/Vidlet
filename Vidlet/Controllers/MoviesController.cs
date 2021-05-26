@@ -27,6 +27,11 @@ namespace Vidlet.Controllers
             };
         }
 
+        private int CalculateTotalMoviesAvailable()
+        {
+            return GetMovies().Count();
+        }
+
 
         // GET: Movies/Random
         //public ActionResult Random()
