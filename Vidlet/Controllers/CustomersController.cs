@@ -9,16 +9,33 @@ namespace Vidlet.Controllers
 {
     public class CustomersController : Controller
     {
+        private ApplicationDbContext _context;
+
+        public CustomersController()
+        {
+            //Creates new Application DBContext object.
+            _context = new ApplicationDbContext();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            //Disposes of db context object. Overrides base displose method. 
+            _context.Dispose();
+        }
+
         // GET: Customers
         public ViewResult Index()
         {
-            var customers = GetCustomers();
+            //Deferred execution. Querying happens when iterating over object. 
+            //Adding .ToList Query Immediately. 
+            var customers = _context.Customers.ToList();
             return View(customers);
         }
 
         public ActionResult Details(int id)
         {
-            var customer = GetCustomers().SingleOrDefault(c => c.Id == id);
+            //Executed immediately. 
+            var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
 
             if (customer == null)
             {
@@ -26,16 +43,6 @@ namespace Vidlet.Controllers
             }
 
             return View(customer);
-        }
-
-
-        private IEnumerable<Customer> GetCustomers()
-        {
-            return new List<Customer>
-            {
-                new Customer() {Id = 1, Name = "Jerry Rice"},
-                new Customer() {Id = 2, Name = "Johnny Arnett"}
-            };
         }
     }
 }
