@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Vidlet.Models;
+using System.Data.Entity;
 
 namespace Vidlet.Controllers
 {
@@ -28,14 +29,14 @@ namespace Vidlet.Controllers
         {
             //Deferred execution. Querying happens when iterating over object. 
             //Adding .ToList Query Immediately. 
-            var customers = _context.Customers.ToList();
+            var customers = _context.Customers.Include(c => c.MembershipType).ToList();
             return View(customers);
         }
 
         public ActionResult Details(int id)
         {
             //Executed immediately. 
-            var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
+            var customer = _context.Customers.Include(c => c.MembershipType).SingleOrDefault(c => c.Id == id);
 
             if (customer == null)
             {
