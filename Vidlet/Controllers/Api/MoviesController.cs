@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Data.Entity;
 using AutoMapper;
 using Vidlet.Dtos;
 using Vidlet.Models;
@@ -22,8 +23,12 @@ namespace Vidlet.Controllers.Api
         //GET /api/movies
         public IHttpActionResult GetMovies()
         {
-            var movieDtos = _context.Movies.ToList().Select(Mapper.Map<Movie, MovieDto>);
-            return Ok(movieDtos);
+             var moviesDto =_context.Movies
+                .Include(c => c.Genre)
+                .ToList()
+                .Select(Mapper.Map<Movie, MovieDto>);
+
+             return Ok(moviesDto);
         }
 
         public IHttpActionResult GetMovie(int id)
