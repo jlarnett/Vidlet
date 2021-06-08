@@ -34,8 +34,7 @@ namespace Vidlet.Controllers
         {
             //Deferred execution. Querying happens when iterating over object. 
             //Adding .ToList Query Immediately. 
-            var customers = _context.Customers.Include(c => c.MembershipType).ToList();
-            return View(customers);
+            return View();
         }
 
         public ActionResult New()
