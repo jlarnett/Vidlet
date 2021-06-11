@@ -11,6 +11,9 @@ namespace Vidlet
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
+            //Route configurations are used to determine URL routes.
+            //Used to direct users to Views and Actions based upon parameters created.
+
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapMvcAttributeRoutes();

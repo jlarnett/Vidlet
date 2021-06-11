@@ -54,9 +54,9 @@ namespace Vidlet
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "390462968954780",
+               appSecret: "8b5cea8f89c09acccffaba7b03f2b51b");
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{

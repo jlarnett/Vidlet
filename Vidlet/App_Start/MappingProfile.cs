@@ -10,6 +10,8 @@ namespace Vidlet.App_Start
 {
     public class MappingProfile : Profile
     {
+
+        //Used for AutoMapper package. Creates link between Models and Dtos so they can be mapped to each other efficiently.
         public MappingProfile()
         {
             //Create Mapping between Models & DTOS.

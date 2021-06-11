@@ -32,8 +32,7 @@ namespace Vidlet.Controllers
         // GET: Customers
         public ViewResult Index()
         {
-            //Deferred execution. Querying happens when iterating over object. 
-            //Adding .ToList Query Immediately. 
+            //Returns the Index View. Customers are now loaded from CustomerAPI.
             return View();
         }
 
