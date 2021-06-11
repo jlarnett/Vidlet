@@ -11,19 +11,24 @@ using Vidlet.Models;
 
 namespace Vidlet.Controllers.Api
 {
+    //This class handles the CustomersAPI
     public class CustomersController : ApiController
     {
-
         private ApplicationDbContext _context;
 
         public CustomersController()
         {
+            //Initialized ApplicaitonDbContext object for class use. 
             _context = new ApplicationDbContext();
         }
+
 
         // GET /api/customers
         public IHttpActionResult GetCustomers()
         {
+            // Gets a IEnumerable of customersDto and returns the list in JSON.
+            // Includes MembershipType object in list.
+
             var customerDtos = _context.Customers
                 .Include(c => c.MembershipType)
                 .ToList()
@@ -38,7 +43,7 @@ namespace Vidlet.Controllers.Api
         {
             //Gets the customer from the database using id.
             //checks for bad id.
-            // returns the customer if id is valid. 
+            // returns the customerDto if id is valid. 
 
             var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
 
@@ -72,6 +77,11 @@ namespace Vidlet.Controllers.Api
         [HttpPut]
         public IHttpActionResult UpdateCustomer(int id, CustomerDto customerDto)
         {
+            //Checks if Incoming customerDto model is valid or not
+            //Locates the customer object from database.
+            //Maps the Incoming CustomerDto to CustomerInDb
+            //Saves the changes to ApplicationDatabase.
+
             if (!ModelState.IsValid)
                 return BadRequest();
 
@@ -90,6 +100,9 @@ namespace Vidlet.Controllers.Api
         [HttpDelete]
         public IHttpActionResult DeleteCustomer(int id)
         {
+            //Checks the id against database to see if customer exist
+            //Removes customer from database context. 
+
             var customerInDb = _context.Customers.SingleOrDefault(c => c.Id == id);
 
             if (customerInDb == null)

@@ -23,6 +23,9 @@ namespace Vidlet.Controllers.Api
         //GET /api/movies
         public IHttpActionResult GetMovies()
         {
+            //Gets IEnumerable list of MovieDtos from database. Includes Genre information 
+            //Returns JSON Data of MoviesDtos.
+
              var moviesDto =_context.Movies
                 .Include(c => c.Genre)
                 .ToList()
@@ -33,6 +36,10 @@ namespace Vidlet.Controllers.Api
 
         public IHttpActionResult GetMovie(int id)
         {
+            //Locates the movie from Id passed in.
+            //Checks if id is valid
+            //Returns a MovieDto of item.
+
             var movie = _context.Movies.SingleOrDefault(c => c.Id == id);
 
             if (movie == null)
@@ -42,8 +49,14 @@ namespace Vidlet.Controllers.Api
         }
 
         [HttpPost]
+        [Authorize(Roles = RoleName.CanManageMovies)]
         public IHttpActionResult CreateMovie(MovieDto movieDto)
         {
+            //Checks if the incoming movieDto has a valid modelstate.
+            //Maps the movieDto to movie object.
+            //Adds the movie to application database.
+            //Returns URI of movieDto with added in ID. 
+
             if (!ModelState.IsValid)
                 return BadRequest();
 
@@ -57,8 +70,10 @@ namespace Vidlet.Controllers.Api
         }
 
         [HttpPut]
+        [Authorize(Roles = RoleName.CanManageMovies)]
         public IHttpActionResult UpdateMovie(int id, MovieDto movieDto)
-        {
+        {   
+
             if (!ModelState.IsValid)
                 return BadRequest();
 
@@ -74,6 +89,7 @@ namespace Vidlet.Controllers.Api
         }
 
         [HttpDelete]
+        [Authorize(Roles = RoleName.CanManageMovies)]
         public IHttpActionResult DeleteMovie(int id)
         {
             var movieInDb = _context.Movies.SingleOrDefault(c => c.Id == id);
