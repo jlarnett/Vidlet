@@ -21,13 +21,19 @@ namespace Vidlet.Controllers.Api
         }
 
         //GET /api/movies
-        public IHttpActionResult GetMovies()
+        public IHttpActionResult GetMovies(string query = null)
         {
             //Gets IEnumerable list of MovieDtos from database. Includes Genre information 
             //Returns JSON Data of MoviesDtos.
 
-             var moviesDto =_context.Movies
-                .Include(c => c.Genre)
+             var moviesQuery =_context.Movies
+                .Include(c => c.Genre);
+
+
+             if (!String.IsNullOrWhiteSpace(query))
+                 moviesQuery = moviesQuery.Where(m => m.Name.Contains(query)).Where(m => m.NumberAvailable > 0);
+
+            var moviesDto = moviesQuery
                 .ToList()
                 .Select(Mapper.Map<Movie, MovieDto>);
 
