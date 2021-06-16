@@ -18,19 +18,23 @@ namespace Vidlet.Controllers.Api
 
         public CustomersController()
         {
-            //Initialized ApplicaitonDbContext object for class use. 
+            //Initialized ApplicationDbContext object for class use. 
             _context = new ApplicationDbContext();
         }
 
-
         // GET /api/customers
-        public IHttpActionResult GetCustomers()
+        public IHttpActionResult GetCustomers(string query = null)
         {
             // Gets a IEnumerable of customersDto and returns the list in JSON.
             // Includes MembershipType object in list.
 
-            var customerDtos = _context.Customers
-                .Include(c => c.MembershipType)
+            var customersQuery = _context.Customers
+                .Include(c => c.MembershipType);
+
+            if (!String.IsNullOrWhiteSpace(query))
+                customersQuery = customersQuery.Where(c => c.Name.Contains(query));
+
+            var customerDtos = customersQuery
                 .ToList()
                 .Select(Mapper.Map<Customer, CustomerDto>);
 
@@ -38,7 +42,6 @@ namespace Vidlet.Controllers.Api
         }
 
         // GET /api/customer/1
-
         public IHttpActionResult GetCustomer(int id)
         {
             //Gets the customer from the database using id.
